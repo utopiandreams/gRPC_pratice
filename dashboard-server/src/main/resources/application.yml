@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: dashboard-server
+
+---
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: dashboard
+      username: admin
+      password: secret
+
+server:
+  port: 8080
+
+grpc:
+  server:
+    port: 50051

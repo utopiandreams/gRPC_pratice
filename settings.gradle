@@ -1,0 +1,3 @@
+rootProject.name = 'grpc-practice'
+include 'dashboard-server'
+include 'resume-server'

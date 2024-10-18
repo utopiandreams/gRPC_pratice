@@ -1,0 +1,87 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+ext {
+	springCloudVersion = '2023.0.1'
+	dockerRepo = 'utopiandrmer'
+	projectName = 'grpc'
+}
+
+group = 'com.kihong'
+version = '0.0.1-SNAPSHOT'
+
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = false
+}
+
+bootBuildImage {
+	enabled = false
+}
+
+subprojects {
+	group = 'com.kihong'
+
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+
+	apply plugin: 'java'
+	apply plugin: 'java-library'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	// 모듈 공통 의존성
+	dependencies {
+		// lombok
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		// spring boot 기본 설정
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+
+	jar {
+		enabled = false
+	}
+
+	bootJar {
+		enabled = true
+	}
+
+	tasks.register('cleanOut', Delete) {
+		delete "${projectDir}/out"
+	}
+
+	tasks.register('buildDockerImage') {
+		doFirst {
+			tasks.named('bootBuildImage').configure {
+				enabled = true
+				imageName = "${dockerRepo}/${projectName}-${project.name}"
+				builder = 'paketobuildpacks/builder:base'
+			}
+		}
+
+		finalizedBy tasks.named('bootBuildImage')
+	}
+}

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: resume-server
+
+---
+grpc:
+  client:
+    dashboard-service:
+      address: "static://localhost:50051"
+      negotiation-type: PLAINTEXT
+
+server:
+  port: 8081
