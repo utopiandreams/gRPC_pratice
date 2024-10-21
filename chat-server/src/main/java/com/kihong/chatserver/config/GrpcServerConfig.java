@@ -1,12 +1,12 @@
-package com.kihong.dashboardserver.config;
+package com.kihong.chatserver.config;
 
-import com.kihong.dashboardserver.service.DashboardGrpcServiceImpl;
+import com.kihong.chatserver.auth.AuthInterceptor;
+import com.kihong.chatserver.grpc.DashboardGrpcServiceImpl;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.protobuf.services.ProtoReflectionService;
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
@@ -19,13 +19,14 @@ public class GrpcServerConfig {
     private Server server;
     private final DashboardGrpcServiceImpl application;
 
-    private int port = 50051;
+    private final int port = 50051;
 
     @PostConstruct
     public void startServer() throws IOException {
         server = ServerBuilder.forPort(port)
                 .addService(application)
                 .addService(ProtoReflectionService.newInstance())
+                .intercept(new AuthInterceptor())
                 .build()
                 .start();
         System.out.println("GrpcServerConfig.startServer : Server started, listening on " + port);

@@ -12,6 +12,7 @@ plugins {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'com.auth0:java-jwt:4.4.0'
 
     implementation "io.grpc:grpc-netty-shaded:${grpcVersion}"
     implementation "io.grpc:grpc-protobuf:${grpcVersion}"

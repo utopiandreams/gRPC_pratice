@@ -1,10 +1,10 @@
-package com.kihong.dashboardserver;
+package com.kihong.chatserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DashboardServerApplicationTests {
+class ChatServerApplicationTests {
 
     @Test
     void contextLoads() {

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: dashboard-server
+    name: chat-server
 
 ---
 spring:
@@ -8,13 +8,9 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: dashboard
       username: admin
       password: secret
+      database: admin
 
 server:
   port: 8080
-
-grpc:
-  server:
-    port: 50051
